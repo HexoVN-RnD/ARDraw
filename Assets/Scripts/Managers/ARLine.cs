@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
-public class ARLine 
+public class ARLine
 {
+    public GameObject LineObject { get; private set; }
     private int positionCount = 0;
 
     private Vector3 prevPointDistance = Vector3.zero;
-    
+
     private LineRenderer LineRenderer { get; set; }
 
     private LineSettings settings;
@@ -18,10 +19,10 @@ public class ARLine
 
     public void AddPoint(Vector3 position)
     {
-        if(prevPointDistance == null)
+        if (prevPointDistance == null)
             prevPointDistance = position;
 
-        if(prevPointDistance != null && Mathf.Abs(Vector3.Distance(prevPointDistance, position)) >= settings.minDistanceBeforeNewPoint)
+        if (prevPointDistance != null && Mathf.Abs(Vector3.Distance(prevPointDistance, position)) >= settings.minDistanceBeforeNewPoint)
         {
             prevPointDistance = position;
             positionCount++;
@@ -32,22 +33,23 @@ public class ARLine
             LineRenderer.SetPosition(positionCount - 1, position);
 
             // applies simplification if reminder is 0
-            if(LineRenderer.positionCount % settings.applySimplifyAfterPoints == 0 && settings.allowSimplification)
+            if (LineRenderer.positionCount % settings.applySimplifyAfterPoints == 0 && settings.allowSimplification)
             {
                 LineRenderer.Simplify(settings.tolerance);
             }
-        }   
+        }
     }
 
     public void AddNewLineRenderer(Transform parent, ARAnchor anchor, Vector3 position)
     {
         positionCount = 2;
         GameObject go = new GameObject($"LineRenderer");
-        
+        LineObject = go;
+
         go.transform.parent = anchor?.transform ?? parent;
         go.transform.position = position;
         go.tag = settings.lineTagName;
-        
+
         LineRenderer goLineRenderer = go.AddComponent<LineRenderer>();
         goLineRenderer.startWidth = settings.startWidth;
         goLineRenderer.endWidth = settings.endWidth;
@@ -68,5 +70,5 @@ public class ARLine
         LineRenderer = goLineRenderer;
 
         ARDebugManager.Instance.LogInfo($"New line renderer created");
-    } 
+    }
 }

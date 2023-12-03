@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DilmerGames.Core.Singletons;
+using HSVPicker;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -22,6 +23,11 @@ public class ARDrawManager : Singleton<ARDrawManager>
     private Dictionary<int, ARLine> Lines = new Dictionary<int, ARLine>();
 
     private bool CanDraw { get; set; }
+
+    private Stack<ARLine> undoStack = new Stack<ARLine>();
+    private Stack<ARLine> redoStack = new Stack<ARLine>();
+
+    public ColorPicker colorPicker;
 
     void Update()
     {
@@ -86,6 +92,9 @@ public class ARDrawManager : Singleton<ARDrawManager>
 
                 ARLine line = new ARLine(lineSettings);
                 Lines.Add(touch.fingerId, line);
+                undoStack.Push(line);
+                redoStack.Clear();
+
                 line.AddNewLineRenderer(transform, anchor, touchPosition);
             }
             else if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
@@ -119,6 +128,9 @@ public class ARDrawManager : Singleton<ARDrawManager>
             {
                 ARLine line = new ARLine(lineSettings);
                 Lines.Add(0, line);
+                undoStack.Push(line);
+                redoStack.Clear();
+
                 line.AddNewLineRenderer(transform, null, mousePosition);
             }
             else
@@ -146,5 +158,51 @@ public class ARDrawManager : Singleton<ARDrawManager>
             Destroy(currentLine);
         }
         //Lines.Clear();
+    }
+
+    public void UndoLastLine()
+    {
+        if (undoStack.Count > 0)
+        {
+            ARLine line = undoStack.Pop();
+            line.LineObject.SetActive(false);
+            redoStack.Push(line);
+        }
+    }
+
+    public void RedoLastLine()
+    {
+        if (redoStack.Count > 0)
+        {
+            ARLine line = redoStack.Pop();
+            line.LineObject.SetActive(true);
+            undoStack.Push(line);
+        }
+    }
+
+    public void ChangeLineColor()
+    {
+        // Get the selected color from the color picker
+        Color selectedColor = colorPicker.CurrentColor;
+
+        // Apply the color to the line settings
+        lineSettings.startColor = selectedColor;
+        lineSettings.endColor = selectedColor;
+    }
+
+    public Color GetLineStartColor()
+    {
+        return lineSettings.startColor;
+    }
+
+    public void ChangeLineWidth(float width)
+    {
+        lineSettings.startWidth = width;
+        lineSettings.endWidth = width;
+    }
+
+    public void ChangeLineMaterial(Material material)
+    {
+        lineSettings.defaultMaterial = material;
     }
 }
