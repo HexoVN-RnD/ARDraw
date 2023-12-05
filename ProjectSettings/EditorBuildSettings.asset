@@ -12,6 +12,8 @@ EditorBuildSettings:
     path: Assets/Scenes/ARDraw new.unity
     guid: e0a5ba00e11713a47bc11a12c6bdfc8e
   m_configObjects:
+    AR Foundation RemoteARFoundationRemoteLoaderSettings: {fileID: 11400000, guid: 5f0e4c265e0a3cf42bc2bc0e3bb0be5f,
+      type: 2}
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 1adebdb41aa6a3c4c9a510995086a8da,
       type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 79f371bd6ffef4fb68c5e6025f22f69f,
