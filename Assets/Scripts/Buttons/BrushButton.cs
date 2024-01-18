@@ -2,10 +2,13 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
-public class BrushWidth : MonoBehaviour
+public class BrushButton : MonoBehaviour
 {
     [SerializeField] private GameObject brushPanel;
+    [SerializeField] private GameObject innerPanel;
     [SerializeField] private TMP_InputField brushSizeInputField;
     [SerializeField] private Slider brushSizeSlider;
     [SerializeField] private LineSettings lineSettings = null;
@@ -13,6 +16,7 @@ public class BrushWidth : MonoBehaviour
     [SerializeField] private float baseWidthValue = 0.005f;
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button cancelButton;
+    private ARDrawManager arDrawManager;
     private CanvasGroup brushPanelCanvasGroup;
 
     private bool isFading = false;
@@ -24,6 +28,7 @@ public class BrushWidth : MonoBehaviour
         confirmButton.onClick.AddListener(OnConfirmButtonClick);
         cancelButton.onClick.AddListener(OnCancelButtonClick);
         brushPanelCanvasGroup = brushPanel.GetComponent<CanvasGroup>();
+        arDrawManager = FindObjectOfType<ARDrawManager>();
     }
 
     private void SliderValueChanged(float value)
@@ -53,9 +58,31 @@ public class BrushWidth : MonoBehaviour
         StartCoroutine(FadePanel());
     }
 
-    public void OnOutsidePanelClick()
+    public void CheckOutsidePanelClick()
     {
         if (isFading) return;
+
+        // Set up the PointerEventData with the current mouse position
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+
+        // Create a list of Raycast Results
+        List<RaycastResult> results = new List<RaycastResult>();
+
+        // Raycast using the Graphics Raycaster and mouse click position
+        EventSystem.current.RaycastAll(eventData, results);
+
+        // For every result returned, check if the GameObject is the inner panel
+        foreach (RaycastResult result in results)
+        {
+            if (result.gameObject == innerPanel)
+            {
+                // Click was on the inner panel, do nothing
+                return;
+            }
+        }
+
+        // Click was outside the inner panel, fade the panel
         StartCoroutine(FadePanel());
     }
 
@@ -81,6 +108,7 @@ public class BrushWidth : MonoBehaviour
         if (targetAlpha == 0f)
         {
             brushPanel.SetActive(false);
+            arDrawManager.AllowDraw(true);
         }
 
         brushPanelCanvasGroup.alpha = targetAlpha;
@@ -92,6 +120,7 @@ public class BrushWidth : MonoBehaviour
         if (isFading) return;
         brushSizeSlider.value = lineSettings.startWidth / baseWidthValue;
         brushSizeInputField.text = brushSizeSlider.value.ToString();
+        arDrawManager.AllowDraw(false);
         StartCoroutine(FadePanel());
     }
 }

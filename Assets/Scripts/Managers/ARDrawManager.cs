@@ -165,6 +165,10 @@ public class ARDrawManager : Singleton<ARDrawManager>
         if (undoStack.Count > 0)
         {
             ARLine line = undoStack.Pop();
+            if (line.LineObject == null)
+            {
+                return;
+            }
             line.LineObject.SetActive(false);
             redoStack.Push(line);
         }
@@ -175,6 +179,10 @@ public class ARDrawManager : Singleton<ARDrawManager>
         if (redoStack.Count > 0)
         {
             ARLine line = redoStack.Pop();
+            if (line.LineObject == null)
+            {
+                return;
+            }
             line.LineObject.SetActive(true);
             undoStack.Push(line);
         }

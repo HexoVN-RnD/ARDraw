@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: LineSettings new
   m_EditorClassIdentifier: 
   lineTagName: Line
-  startColor: {r: 1, g: 1, b: 1, a: 1}
-  endColor: {r: 1, g: 1, b: 1, a: 1}
+  startColor: {r: 0.33327502, g: 0.5196699, b: 0.48197106, a: 0.43246397}
+  endColor: {r: 0.33327502, g: 0.5196699, b: 0.48197106, a: 0.43246397}
   startWidth: 0.005
   endWidth: 0.005
   distanceFromCamera: 0.3
@@ -22,7 +22,7 @@ MonoBehaviour:
   cornerVertices: 10
   endCapVertices: 10
   minDistanceBeforeNewPoint: 0.001
-  allowSimplification: 0
+  allowSimplification: 1
   tolerance: 0.01
   applySimplifyAfterPoints: 1
   allowMultiTouch: 1
