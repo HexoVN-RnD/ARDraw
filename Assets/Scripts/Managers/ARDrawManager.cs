@@ -104,6 +104,7 @@ public class ARDrawManager : Singleton<ARDrawManager>
             else if (touch.phase == TouchPhase.Ended)
             {
                 Lines.Remove(touch.fingerId);
+                Lines[touch.fingerId].FinishLine();
             }
         }
     }
@@ -140,7 +141,15 @@ public class ARDrawManager : Singleton<ARDrawManager>
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            Lines.Remove(0);
+            try
+            {
+                Lines[0].FinishLine();
+                Lines.Remove(0);
+            }
+            catch (KeyNotFoundException e)
+            {
+                Debug.Log("Key not found");
+            }
         }
     }
 

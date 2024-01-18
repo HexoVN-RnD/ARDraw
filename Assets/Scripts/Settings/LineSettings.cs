@@ -1,10 +1,10 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LineSettings", menuName = "Create Line Settings", order = 0)]
-public class LineSettings : ScriptableObject 
+public class LineSettings : ScriptableObject
 {
     public string lineTagName = "Line";
-    
+
     public Color startColor = Color.white;
 
     public Color endColor = Color.white;
@@ -23,13 +23,14 @@ public class LineSettings : ScriptableObject
 
     [Range(0, 1.0f)]
     public float minDistanceBeforeNewPoint = 0.001f;
+    public bool allowMultiTouch = true;
 
     [Header("Tolerance Options")]
-    public bool allowSimplification = false;
+    public bool allowLineSimplification = false;
+    public float lineSimplificationTolerance = 0.001f;
+    public bool allowPointSimplification = false;
 
-    public float tolerance = 0.001f;
-    
+    public float pointSimplificationTolerance = 0.001f;
+
     public float applySimplifyAfterPoints = 20.0f;
-
-    public bool allowMultiTouch = true;
 }

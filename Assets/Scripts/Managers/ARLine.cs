@@ -33,10 +33,21 @@ public class ARLine
             LineRenderer.SetPosition(positionCount - 1, position);
 
             // applies simplification if reminder is 0
-            if (LineRenderer.positionCount % settings.applySimplifyAfterPoints == 0 && settings.allowSimplification)
+            if (LineRenderer.positionCount % settings.applySimplifyAfterPoints == 0 && settings.allowPointSimplification)
             {
-                LineRenderer.Simplify(settings.tolerance);
+                LineRenderer.Simplify(settings.pointSimplificationTolerance);
+
+                // Update positionCount after simplification
+                positionCount = LineRenderer.positionCount;
             }
+        }
+    }
+
+    public void FinishLine()
+    {
+        if (settings.allowLineSimplification)
+        {
+            LineRenderer.Simplify(settings.lineSimplificationTolerance);
         }
     }
 

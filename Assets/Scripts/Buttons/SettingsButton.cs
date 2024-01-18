@@ -13,8 +13,10 @@ public class SettingsButton : MonoBehaviour
     [SerializeField] private TMP_InputField endCapVertices;
     [SerializeField] private TMP_InputField minDistanceBeforeNewPoint;
     [SerializeField] private Toggle allowMultiTouch;
-    [SerializeField] private Toggle allowSimplification;
-    [SerializeField] private TMP_InputField tolerance;
+    [SerializeField] private Toggle allowLineSimplification;
+    [SerializeField] private TMP_InputField lineSimplificationTolerance;
+    [SerializeField] private Toggle allowPointSimplification;
+    [SerializeField] private TMP_InputField pointSimplificationTolerance;
     [SerializeField] private TMP_InputField applySimplifyAfterPoints;
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button cancelButton;
@@ -31,7 +33,8 @@ public class SettingsButton : MonoBehaviour
         cancelButton.onClick.AddListener(OnCancelButtonClick);
         resetButton.onClick.AddListener(OnResetButtonClick);
         settingsPanelCanvasGroup = settingsPanel.GetComponent<CanvasGroup>();
-        allowSimplification.onValueChanged.AddListener(OnAllowSimplificationToggle);
+        allowPointSimplification.onValueChanged.AddListener(OnAllowPointSimplificationToggle);
+        allowLineSimplification.onValueChanged.AddListener(OnAllowLineSimplificationToggle);
     }
 
     private void OnConfirmButtonClick() {
@@ -42,8 +45,10 @@ public class SettingsButton : MonoBehaviour
         lineSettings.endCapVertices = int.Parse(endCapVertices.text);
         lineSettings.minDistanceBeforeNewPoint = float.Parse(minDistanceBeforeNewPoint.text);
         lineSettings.allowMultiTouch = allowMultiTouch.isOn;
-        lineSettings.allowSimplification = allowSimplification.isOn;
-        lineSettings.tolerance = float.Parse(tolerance.text);
+        lineSettings.allowLineSimplification = allowLineSimplification.isOn;
+        lineSettings.lineSimplificationTolerance = float.Parse(lineSimplificationTolerance.text);
+        lineSettings.allowPointSimplification = allowPointSimplification.isOn;
+        lineSettings.pointSimplificationTolerance = float.Parse(pointSimplificationTolerance.text);
         lineSettings.applySimplifyAfterPoints = float.Parse(applySimplifyAfterPoints.text);
         StartCoroutine(FadePanel());
     }
@@ -60,8 +65,10 @@ public class SettingsButton : MonoBehaviour
         endCapVertices.text = "10";
         minDistanceBeforeNewPoint.text = "0.001";
         allowMultiTouch.isOn = true;
-        allowSimplification.isOn = false;
-        tolerance.text = "0.01";
+        allowLineSimplification.isOn = false;
+        lineSimplificationTolerance.text = "0.01";
+        allowPointSimplification.isOn = false;
+        pointSimplificationTolerance.text = "0.01";
         applySimplifyAfterPoints.text = "1";
     }
 
@@ -73,10 +80,13 @@ public class SettingsButton : MonoBehaviour
         endCapVertices.text = lineSettings.endCapVertices.ToString();
         minDistanceBeforeNewPoint.text = lineSettings.minDistanceBeforeNewPoint.ToString();
         allowMultiTouch.isOn = lineSettings.allowMultiTouch;
-        allowSimplification.isOn = lineSettings.allowSimplification;
-        tolerance.text = lineSettings.tolerance.ToString();
+        allowLineSimplification.isOn = lineSettings.allowLineSimplification;
+        lineSimplificationTolerance.text = lineSettings.lineSimplificationTolerance.ToString();
+        allowPointSimplification.isOn = lineSettings.allowPointSimplification;
+        pointSimplificationTolerance.text = lineSettings.pointSimplificationTolerance.ToString();
         applySimplifyAfterPoints.text = lineSettings.applySimplifyAfterPoints.ToString();
-        OnAllowSimplificationToggle(allowSimplification.isOn);
+        OnAllowPointSimplificationToggle(allowPointSimplification.isOn);
+        OnAllowLineSimplificationToggle(allowLineSimplification.isOn);
     }
 
     private IEnumerator FadePanel() {
@@ -115,13 +125,21 @@ public class SettingsButton : MonoBehaviour
         }
     }
 
-    private void OnAllowSimplificationToggle(bool isOn) {
+    private void OnAllowPointSimplificationToggle(bool isOn) {
         if (isOn) {
-            tolerance.interactable = true;
+            pointSimplificationTolerance.interactable = true;
             applySimplifyAfterPoints.interactable = true;
         } else {
-            tolerance.interactable = false;
+            pointSimplificationTolerance.interactable = false;
             applySimplifyAfterPoints.interactable = false;
+        }
+    }
+
+    private void OnAllowLineSimplificationToggle(bool isOn) {
+        if (isOn) {
+            lineSimplificationTolerance.interactable = true;
+        } else {
+            lineSimplificationTolerance.interactable = false;
         }
     }
 }
