@@ -12,6 +12,8 @@ public class SettingsButton : MonoBehaviour
     [SerializeField] private TMP_InputField cornerVertices;
     [SerializeField] private TMP_InputField endCapVertices;
     [SerializeField] private TMP_InputField minDistanceBeforeNewPoint;
+    [SerializeField] private Toggle allowTextureAutoScaleByWidth;
+    [SerializeField] private TMP_InputField textureScaleWidth;
     [SerializeField] private Toggle allowMultiTouch;
     [SerializeField] private Toggle allowLineSimplification;
     [SerializeField] private TMP_InputField lineSimplificationTolerance;
@@ -35,6 +37,8 @@ public class SettingsButton : MonoBehaviour
         settingsPanelCanvasGroup = settingsPanel.GetComponent<CanvasGroup>();
         allowPointSimplification.onValueChanged.AddListener(OnAllowPointSimplificationToggle);
         allowLineSimplification.onValueChanged.AddListener(OnAllowLineSimplificationToggle);
+        allowTextureAutoScaleByWidth.onValueChanged.AddListener(OnAllowAutoScaleTextureByWidthToggle);
+        startWidth.onValueChanged.AddListener(OnStartWidthChanged);
     }
 
     private void OnConfirmButtonClick() {
@@ -50,6 +54,7 @@ public class SettingsButton : MonoBehaviour
         lineSettings.allowPointSimplification = allowPointSimplification.isOn;
         lineSettings.pointSimplificationTolerance = float.Parse(pointSimplificationTolerance.text);
         lineSettings.applySimplifyAfterPoints = float.Parse(applySimplifyAfterPoints.text);
+        lineSettings.textureScale.x = float.Parse(textureScaleWidth.text);
         StartCoroutine(FadePanel());
     }
 
@@ -70,6 +75,8 @@ public class SettingsButton : MonoBehaviour
         allowPointSimplification.isOn = false;
         pointSimplificationTolerance.text = "0.01";
         applySimplifyAfterPoints.text = "1";
+        allowTextureAutoScaleByWidth.isOn = true;
+        textureScaleWidth.text = "200";
     }
 
     private void OnEnable() {
@@ -87,6 +94,8 @@ public class SettingsButton : MonoBehaviour
         applySimplifyAfterPoints.text = lineSettings.applySimplifyAfterPoints.ToString();
         OnAllowPointSimplificationToggle(allowPointSimplification.isOn);
         OnAllowLineSimplificationToggle(allowLineSimplification.isOn);
+        OnAllowAutoScaleTextureByWidthToggle(allowTextureAutoScaleByWidth.isOn);
+        textureScaleWidth.text = lineSettings.textureScale.x.ToString();
     }
 
     private IEnumerator FadePanel() {
@@ -140,6 +149,20 @@ public class SettingsButton : MonoBehaviour
             lineSimplificationTolerance.interactable = true;
         } else {
             lineSimplificationTolerance.interactable = false;
+        }
+    }
+
+    private void OnAllowAutoScaleTextureByWidthToggle(bool isOn) {
+        if (isOn) {
+            textureScaleWidth.interactable = false;
+        } else {
+            textureScaleWidth.interactable = true;
+        }
+    }
+
+    private void OnStartWidthChanged(string value) {
+        if (allowTextureAutoScaleByWidth.isOn) {
+            textureScaleWidth.text = (1/float.Parse(value)).ToString();
         }
     }
 }

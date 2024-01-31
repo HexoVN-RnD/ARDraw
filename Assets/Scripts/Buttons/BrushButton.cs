@@ -14,11 +14,11 @@ public class BrushButton : MonoBehaviour
     [SerializeField] private LineSettings lineSettings = null;
     [SerializeField] private float fadeDuration = 0.25f;
     [SerializeField] private float baseWidthValue = 0.005f;
+    [SerializeField] private float baseTextureScaleX = 200f;
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button cancelButton;
     private ARDrawManager arDrawManager;
     private CanvasGroup brushPanelCanvasGroup;
-
     private bool isFading = false;
 
     private void Awake()
@@ -50,6 +50,7 @@ public class BrushButton : MonoBehaviour
     {
         lineSettings.startWidth = baseWidthValue * brushSizeSlider.value;
         lineSettings.endWidth = baseWidthValue * brushSizeSlider.value;
+        lineSettings.textureScale.x = baseTextureScaleX/brushSizeSlider.value;
         StartCoroutine(FadePanel());
     }
 

@@ -75,6 +75,9 @@ public class ARLine
         goLineRenderer.numCornerVertices = settings.cornerVertices;
         goLineRenderer.numCapVertices = settings.endCapVertices;
 
+        goLineRenderer.textureMode = settings.textureMode;
+        goLineRenderer.textureScale = settings.textureScale;
+
         goLineRenderer.SetPosition(0, position);
         goLineRenderer.SetPosition(1, position);
 

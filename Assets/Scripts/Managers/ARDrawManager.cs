@@ -103,8 +103,8 @@ public class ARDrawManager : Singleton<ARDrawManager>
             }
             else if (touch.phase == TouchPhase.Ended)
             {
-                Lines.Remove(touch.fingerId);
                 Lines[touch.fingerId].FinishLine();
+                Lines.Remove(touch.fingerId);
             }
         }
     }
