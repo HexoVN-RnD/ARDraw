@@ -85,5 +85,6 @@ public class ColorPickerButton : MonoBehaviour
         ARDebugManager.Instance.LogInfo($"Color selected: {color}");
         lineSettings.startColor = color;
         lineSettings.endColor = color;
+        lineSettings.SaveColor();
     }
 }

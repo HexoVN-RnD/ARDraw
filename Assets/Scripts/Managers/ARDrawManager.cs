@@ -220,6 +220,6 @@ public class ARDrawManager : Singleton<ARDrawManager>
 
     public void ChangeLineMaterial(Material material)
     {
-        lineSettings.defaultMaterial = material;
+        lineSettings.lineMaterial = material;
     }
 }

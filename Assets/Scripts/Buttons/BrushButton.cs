@@ -48,9 +48,13 @@ public class BrushButton : MonoBehaviour
 
     private void OnConfirmButtonClick()
     {
-        lineSettings.startWidth = baseWidthValue * brushSizeSlider.value;
-        lineSettings.endWidth = baseWidthValue * brushSizeSlider.value;
+        float width = baseWidthValue * brushSizeSlider.value;
+        lineSettings.startWidth = width;
+        lineSettings.endWidth = width;
         lineSettings.textureScale.x = baseTextureScaleX/brushSizeSlider.value;
+        lineSettings.SaveWidth();
+        lineSettings.SaveTextureScale();
+
         StartCoroutine(FadePanel());
     }
 

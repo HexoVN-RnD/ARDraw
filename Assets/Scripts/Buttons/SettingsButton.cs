@@ -55,6 +55,7 @@ public class SettingsButton : MonoBehaviour
         lineSettings.pointSimplificationTolerance = float.Parse(pointSimplificationTolerance.text);
         lineSettings.applySimplifyAfterPoints = float.Parse(applySimplifyAfterPoints.text);
         lineSettings.textureScale.x = float.Parse(textureScaleWidth.text);
+        lineSettings.SaveSettings();
         StartCoroutine(FadePanel());
     }
 

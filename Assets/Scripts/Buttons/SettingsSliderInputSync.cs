@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SliderInputSync : MonoBehaviour
+public class SettingsSliderInputSync : MonoBehaviour
 {
     private TMP_InputField brushSizeInputField;
     private Slider brushSizeSlider;

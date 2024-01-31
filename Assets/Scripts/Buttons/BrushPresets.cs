@@ -40,11 +40,13 @@ public class BrushPresets : MonoBehaviour
 
     private void SetBrushMaterial(int index)
     {
-        lineSettings.defaultMaterial = brushMaterials[index];
+        lineSettings.lineMaterial = brushMaterials[index];
+        lineSettings.SaveMaterial();
     }
 
     public void SetDefaultBrushMaterial()
     {
-        lineSettings.defaultMaterial = defaultBrushMaterial;
+        lineSettings.lineMaterial = defaultBrushMaterial;
+        lineSettings.SaveMaterial();
     }
 }
