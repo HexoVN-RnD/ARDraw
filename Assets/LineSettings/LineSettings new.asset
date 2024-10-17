@@ -18,7 +18,7 @@ MonoBehaviour:
   startWidth: 0.005
   endWidth: 0.005
   distanceFromCamera: 0.3
-  defaultMaterial: {fileID: 2100000, guid: b76cfb2c453faa346a8f79090e301d8c, type: 2}
+  lineMaterial: {fileID: 2100000, guid: b20dd46a376d09c4a9d0f4a2218a9bf3, type: 2}
   cornerVertices: 10
   endCapVertices: 10
   textureMode: 1
