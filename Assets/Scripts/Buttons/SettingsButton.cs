@@ -26,6 +26,7 @@ public class SettingsButton : MonoBehaviour
     private ARDrawManager arDrawManager;
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private float fadeDuration = 0.25f;
+    [SerializeField] private GameObject GameObjectToHide;
     private CanvasGroup settingsPanelCanvasGroup;
     private bool isFading = false;
 
@@ -107,6 +108,7 @@ public class SettingsButton : MonoBehaviour
         if (targetAlpha == 1f)
         {
             settingsPanel.SetActive(true);
+            // GameObjectToHide.SetActive(false);
         }
 
         while (elapsedTime < fadeDuration)
@@ -120,6 +122,7 @@ public class SettingsButton : MonoBehaviour
         if (targetAlpha == 0f)
         {
             settingsPanel.SetActive(false);
+            // GameObjectToHide.SetActive(true);
             arDrawManager.AllowDraw(true);
         }
 
